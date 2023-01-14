@@ -1,0 +1,25 @@
+cffi==1.15.1
+charset-normalizer==3.0.1
+ffmpeg-python==0.2.0
+filelock==3.9.0
+future==0.18.3
+huggingface-hub==0.11.1
+idna==3.4
+more-itertools==9.0.0
+numpy==1.24.1
+packaging==23.0
+pycparser==2.21
+PyYAML==6.0
+regex==2022.10.31
+requests==2.28.2
+sounddevice==0.4.5
+soundfile==0.11.0
+tk==0.1.0
+tokenizers==0.13.2
+torch==1.13.1
+tqdm==4.64.1
+transformers==4.25.1
+typing_extensions==4.4.0
+urllib3==1.26.14
+whisper @ git+https://github.com/openai/whisper.git@f82bc59f5ea234d4b97fb2860842ed38519f7e65
+customtkinter==5.0.3
