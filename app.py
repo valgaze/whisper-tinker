@@ -4,6 +4,7 @@ import customtkinter
 import tkinter as tk
 from tkinter import filedialog as fd 
 import whisper 
+import pyperclip
 
 ## Globals
 recording = False
@@ -92,6 +93,10 @@ def reset():
     updateLabel(UI_CONFIG['default'])
     clear_text()
 
+def copy_to_clipboard():
+    text = transcribeBox.get("1.0", tk.END)
+    pyperclip.copy(text)
+
 # rest of the UI code
 rootLabel = tk.Label(master=root_frame, justify=tk.LEFT, text=UI_CONFIG["default"])
 rootLabel.pack(pady=10, padx=10)
@@ -104,6 +109,7 @@ recordButton.pack(pady=5, padx=10)
 
 transcribeButton = tk.Button(master=root_frame, text="📝 Transcribe", command=transcribe, state = "disabled")
 transcribeButton.pack(pady=10, padx=10)
+
 
 def loadFile():
     fileName = fd.askopenfilename(filetypes=[(UI_CONFIG["flacDescription"], "*.flac")])
@@ -118,6 +124,9 @@ fileButton.pack(pady=10, padx=10)
 transcribeBox = customtkinter.CTkTextbox(master=root_frame, width=300)
 transcribeBox.pack(pady=10, padx=10)
 transcribeBox.insert("0.0", "")
+
+copyButton = tk.Button(master=root_frame, text="© Copy!", command=copy_to_clipboard)
+copyButton.pack(pady=10, padx=10)
 
 clearButton = tk.Button(master=root_frame, text=UI_CONFIG["clear"], command=reset)
 clearButton.pack(pady=10, padx=10)
