@@ -23,3 +23,4 @@ typing_extensions==4.4.0
 urllib3==1.26.14
 whisper @ git+https://github.com/openai/whisper.git@f82bc59f5ea234d4b97fb2860842ed38519f7e65
 customtkinter==5.0.3
+pyperclip==1.8.2
