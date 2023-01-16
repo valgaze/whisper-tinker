@@ -1,13 +1,31 @@
-# https://github.com/conda/conda/issues/7980
-# https://stackoverflow.com/questions/34534513/calling-conda-source-activate-from-bash-script
-eval "$(conda shell.bash hook)"
+#!/bin/bash
 
+# Get current shell
+current_shell=$(echo $SHELL | awk -F/ '{print $NF}')
+
+# Initialize conda
+if [ "$current_shell" == "bash" ]; then
+    conda init bash
+else
+    conda init $current_shell
+fi
+
+# create whisper_app
 conda create --name whisper_app python=3.9 -y
+
+# Activate whisper_app environment
 conda activate whisper_app
+
+# Install pip
 conda install pip
-pip install git+https://github.com/openai/whisper.git # Install Whisper
-pip install tk customtkinter # Install UI tooling, tk + customtk
-pip install sounddevice soundfile # Install recording and write-to-file
-echo "Run the following to activate: conda activate whisper_app"
 
+# Install Whisper
+pip install git+https://github.com/openai/whisper.git
 
+# Install UI tooling
+pip install tk customtkinter
+
+# Install recording and write-to-file utilities
+pip install sounddevice soundfile
+
+echo "SETUP COMPLETE"
