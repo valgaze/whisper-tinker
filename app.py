@@ -9,7 +9,7 @@ import pyperclip
 ## Globals
 recording = False
 WHISPER_CONFIG = {'model': 'base', 'file_name': 'scratch_audio.flac', 'task':'transcribe', 'detectedLanguage': '', 'text': ''}
-UI_CONFIG = {'flacDescription':'Flac audio files', 'default': 'Press start or pick a file to begin transcription', 'busy': '📝 Transcribing...', 'done':'✅ Job finished', 'done:recording':'🎤 Recording done', 'start':'▶ Start', 'stop': '■ Stop', 'clear':'✖ Clear', 'load': '📁 Load Audio from File', 'transcribe': '📝 Transcribe', 'keeptalking': 'Keep talking for 10 seconds', 'loadingmodel': '🛰 Loading model...', 'dark_mode':False }
+UI_CONFIG = {'flacDescription':'Flac audio files', 'default': 'Press start or pick a file to begin transcription', 'busy': '📝 Transcribing...', 'done':'✅ Job finished', 'done:recording':'🎤 Recording done', 'start':'▶ Start', 'stop': '■ Stop', 'clear':'✖ Clear', 'load': '📁 Load Audio from File', 'transcribe': '📝 Transcribe', 'keeptalking': 'Keep talking for 10 seconds', 'loadingmodel': '🛰 Loading model...', 'copy': '© Copy!','dark_mode':False }
 
 app = customtkinter.CTk()
 app.title("Whisper POC")
@@ -61,16 +61,15 @@ def start_recording():
         transcribeButton.configure(state = 'active')
     else:
         updateLabel(UI_CONFIG["default"])
-        updateButton("▶ Start")
+        updateButton(UI_CONFIG['start'])
         recording = False
 
 def transcribe():
-   
     clear_text()
     updateLabel(UI_CONFIG["loadingmodel"])
-   
-    model = whisper.load_model(WHISPER_CONFIG["model"])
+
     language = "en" if WHISPER_CONFIG["model"].endswith(".en") else None
+    model = whisper.load_model(WHISPER_CONFIG["model"])
     audio = WHISPER_CONFIG["file_name"]
     options = {"fp16": False, "language": language, "task": WHISPER_CONFIG["task"]}
    
@@ -107,13 +106,12 @@ menu.pack(pady=10, padx=10)
 recordButton = tk.Button(master=root_frame,text=UI_CONFIG["start"],command=start_recording)
 recordButton.pack(pady=5, padx=10)
 
-transcribeButton = tk.Button(master=root_frame, text="📝 Transcribe", command=transcribe, state = "disabled")
+transcribeButton = tk.Button(master=root_frame, text=UI_CONFIG['transcribe'], command=transcribe, state = "disabled")
 transcribeButton.pack(pady=10, padx=10)
 
 
 def loadFile():
     fileName = fd.askopenfilename(filetypes=[(UI_CONFIG["flacDescription"], "*.flac")])
-    print(fileName)
     if fileName != '':
         WHISPER_CONFIG["file_name"] = fileName
         transcribe()
@@ -125,24 +123,17 @@ transcribeBox = customtkinter.CTkTextbox(master=root_frame, width=300)
 transcribeBox.pack(pady=10, padx=10)
 transcribeBox.insert("0.0", "")
 
-copyButton = tk.Button(master=root_frame, text="© Copy!", command=copy_to_clipboard)
+copyButton = tk.Button(master=root_frame, text=UI_CONFIG['copy'], command=copy_to_clipboard)
 copyButton.pack(pady=10, padx=10)
 
 clearButton = tk.Button(master=root_frame, text=UI_CONFIG["clear"], command=reset)
 clearButton.pack(pady=10, padx=10)
 
-
 ## Set starting model
-BASE_MODEL = MODEL_OPTIONS[3]
+BASE_MODEL = MODEL_OPTIONS[3] # "base"
 selectedModelVar.set(BASE_MODEL)
 menu.set(BASE_MODEL)
 WHISPER_CONFIG["model"] = BASE_MODEL
-
-# parser = argparse.ArgumentParser(description='Yay.')
-# args = parser.parse_args()
-# # if there is text in args
-# # if there is 
-# print(args.accumulate(args.integers))
 
 app.mainloop()
 
